@@ -29,7 +29,7 @@
             type:"get", 
             url:"https://dapi.kakao.com/v3/search/book?target=title",
             headers:{"Authorization" : "KakaoAK dbb3283e72bfc45225288e919613ad4c"},
-            data:{query:"자바", page:1, size:5},
+            data:{ query:"자바", page:1, size:5},
             success:function(data) {
                 // console.log(data)
                 let temp=Handlebars.compile($("#temp_books").html());
