@@ -1,4 +1,11 @@
 <!-- Content -->
+<style>
+    #div_books img {
+      cursor: pointer;
+    }
+</style>
+
+
 <div class="my-5 row">
     <div class="col text-center container">
       <div class="row mb-3 justify-content-end">
@@ -11,7 +18,7 @@
       </div>
       <!-- 검색결과 출력 -->
       <div id="div_books" class="row"></div>
-      <!-- <h1>This is the 김민준.</h1> --><!-- 페이징 기능-->
+      <!-- 페이징 기능-->
       <div class="text-center">
         <button class="btn btn-primary" id="prev">이전</button>
         <span id="span_page">1/10</span>
@@ -25,21 +32,44 @@
       <div class="col-6 col-md-4 col-lg-2 mb-2 ">
         <div class="card">
           <div class="card-body">
-            <img src="{{thumbnail}}">
+            <img src="{{chk_thumbnail thumbnail}}" witdh="90%" index="{{@index}}">
             <div class="ellipsis text-center">{{title}}</div>
           </div>
           <div class="card-footer">
-            {{price}}원
+            {{fmt_price price}}
           </div>
         </div>
       </div>
+      <%-include('books/modal.ejs')%>
     {{/each}}
+
+  </script>
+  <script>
+    // Handlebars 함수
+    Handlebars.registerHelper("chk_thumbnail", function(thumbnail){
+        if(!thumbnail) {
+            return "http://via.placeholder.com/120x170";
+        }else {
+            return thumbnail;
+        }
+    });
+
+    Handlebars.registerHelper("fmt_price", function(price){
+        if(price) return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '원';
+    });
   </script>
   <script>
     // 폼의 쿼리인풋박스안의 value값을 query 변수에 저장
     let query = $(frm.query).val();
     let page = 1;
-  
+    // 이미지를 클릭했을 때
+    $("#div_books").on("click", "img", function(){
+      // 인덱스의 속성 값을 가지고 와서 넣는다
+        let index=$(this).attr("index");
+        // alert(index);
+        $("#modal" + index).modal("show");
+
+    });
     $(frm).on("submit", function (e) {
       e.preventDefault();
       page = 1;
@@ -61,7 +91,7 @@
       $.ajax({
         type: "GET",
         url: "https://dapi.kakao.com/v3/search/book?target=authors",
-        headers: { Authorization: "KakaoAK a40b5b449d67f0fcf74b4a3bf9e4a072" },
+        headers: { Authorization: "KakaoAK dbb3283e72bfc45225288e919613ad4c" },
         data: { query: query, page: page, size: 10 },
         success: function (data) {
           console.log(data);
