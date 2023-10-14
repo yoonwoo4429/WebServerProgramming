@@ -1,0 +1,63 @@
+<!-- 가운데 정렬 justify... -->
+
+<style>
+    for span {
+        width:100px;
+    }
+</style>
+
+<div class="row my-5 justify-content-center"> 
+    <div class="col-6">
+        <h1 class="text-center">로그인</h1>
+        <form name="frm" class="card p-3">
+            <div class="input-group mb-3" >
+                <span class="input-group-text">이메일</span>
+                <input name="email" class="form-control" value="test@google.com">
+                
+            </div>
+            <div class="input-group  mb-3">
+                <span class="input-group-text">비밀번호</span>
+                <input name="password" class="form-control" type="password" value="123456">
+            </div>
+            <button class="btn btn-primary w-100">로그인</button>
+        </form>
+        <div class="text-end mt-2">
+            <a href="/users/join">회원가입</a>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    import {app} from '/javascripts/firebaseInit.js';
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+    const auth = getAuth();
+    
+
+    $(frm).on("submit", function(e){
+        e.preventDefault();
+        const email=$(frm.email).val();
+        const password=$(frm.password).val();
+        // 유효성 체크
+        if(email==""){
+            alert("이메일을 입력해주세요")
+            $(frm.email).focus();
+        }else if(password==""){
+            alert("비밀번호를 입력해주세요")
+            $(frm.password).focus();
+        }else {
+            signInWithEmailAndPassword(auth, email, password).then(success=>{
+                // 로그인 성공
+                console.log(success);
+                sessionStorage.setItem("email", email);
+                sessionStorage.setItem("uid", success.user.uid);
+                alert("로그인에 성공하셨습니다.");
+                location.href="/";
+            }).catch(error=>{
+                // console.log(error);
+                alert(error.message);
+
+            });
+        }
+        // alert(email+password);
+    });
+</script>
