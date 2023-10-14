@@ -7,7 +7,9 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/cart', function(req, res){
+  // 페이지 출력 -> render
   res.render('index', { title: '장바구니', pageName:'books/cart.ejs'});
 });
+
 
 module.exports = router;
