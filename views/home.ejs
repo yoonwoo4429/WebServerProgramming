@@ -126,7 +126,7 @@
     // 도서검색 데이터 불러오기
     function getBooks() {
       $.ajax({
-        type: "GET",
+        type: "get",
         url: "https://dapi.kakao.com/v3/search/book?target=authors",
         headers: { Authorization: "KakaoAK dbb3283e72bfc45225288e919613ad4c" },
         data: { query: query, page: page, size: 10 },
