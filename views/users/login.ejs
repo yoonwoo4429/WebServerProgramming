@@ -9,11 +9,11 @@
         <form name="frm" class="card p-3">
             <div class="input-group mb-3">
                 <span class="input-group-text">이메일</span>
-                <input name="email" class="form-control" value="blue@test.com">
+                <input name="email" class="form-control" value="test@gmail.com">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">패스워드</span>
-                <input name="password" class="form-control" type="password" value="Kurly123!@">
+                <input name="password" class="form-control" type="password" value="123123123">
             </div>
             <button class="btn btn-primary w-100">로그인</button>
         </form>
@@ -33,26 +33,27 @@
         const email=$(frm.email).val();
         const password=$(frm.password).val();
         // 유효성 체크
-        if (email == "") {
-            alert("이메일을 입력하세요");
+        if(email == ""){
+            alert("이메일을 입력하세요!");
             $(frm.email).focus();
-        } else if (password == "") {
-            alert("패스워드를 입력하세요");
+        }else if(password == "") {
+            alert("비밀번호를 입력하세요!");
             $(frm.password).focus();
-        } else {
+        }else{
             // 로그인 체크
             signInWithEmailAndPassword(auth, email, password).then(success=>{
                 console.log(success);
                 sessionStorage.setItem("email", email);
                 sessionStorage.setItem("uid", success.user.uid);
-                if (sessionStorage.getItem("target")) {
+                if(sessionStorage.getItem("target")) {
                     location.href=sessionStorage.getItem("target");
-                } else {
+                    sessionStorage.removeItem("target");
+                }else{
                     location.href="/";
                 }
             }).catch(error=>{
-                console.log(error)
-            })
+                alert(error.message);
+            });
         }
-    })
+    });
 </script>
