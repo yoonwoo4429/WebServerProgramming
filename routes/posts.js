@@ -1,14 +1,19 @@
 var express = require('express');
 var router = express.Router();
 
-//게시글
-router.get('/', function(req, res){
-    res.render('index', {title:'게시판', pageName:'posts/list.ejs'});
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  res.render('index', { title: '게시판', pageName:'posts/list.ejs' }); //무조건 index로 이동
 });
 
-//글쓰기
-router.get('/insert', function(req, res){
-    res.render('index', {title:'글쓰기', pageName:'posts/insert.ejs'});
-})
+router.get('/insert', function(req, res, next) {
+    res.render('index', { title: '글쓰기', pageName:'posts/insert.ejs' }); 
+  });
+
+
+  router.get('/read', function(req, res, next) {
+    const id=req.query.id;
+    res.render('index', { title: '게시글정보', pageName:'posts/read.ejs', id}); 
+  });
 
 module.exports = router;
